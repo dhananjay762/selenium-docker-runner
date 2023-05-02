@@ -2,12 +2,17 @@ pipeline {
     // master executor should be set to 0
     agent any
     stages {
-        stage('Run Test'){
+		stage('Start Grid'){
             steps{
-                bat "docker-compose up --no-color"
+                bat "docker-compose up -d hub chrome firefox"
             }
         }
-		stage('Bring Grid Down'){            
+        stage('Run Test'){
+            steps{
+                bat "docker-compose up search-module book-flight-module"
+            }
+        }
+		stage('Stop Grid'){            
 		    steps{
 		        bat "docker-compose down"
 		    }
